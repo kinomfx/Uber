@@ -17,3 +17,27 @@ export const register = async(req , res , next)=>{
     const token = await user.generateAuthToken()
     res.status(201).json({token , user})
 }
+
+export const login = async(req , res , next)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({
+            errors:errors.array()
+        })
+    }
+    const {email , password} = req.body;
+    const user = await User.findOne({email}).select('+password');
+    if(!user){
+        return res.status(401).json({
+            message:"Invalid email or password"
+        })
+    }
+    const isMatch = await user.comparePassword(password);
+    const Token = await user.generateAuthToken();
+    if(!isMatch){
+        return res.status(401).json({
+            message:"Invalid email or password"
+        })
+    }
+    res.status(200).json({token:Token , user})
+}
