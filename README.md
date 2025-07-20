@@ -184,8 +184,9 @@ Since the route is set up as `GET /captain/register` with validation middleware 
     "updatedAt": "2025-07-27T12:00:00.000Z"
   }
 }
-
+```
 #### Error (400 Bad Request)
+```json
 {
   "errors": [
     {
@@ -195,11 +196,14 @@ Since the route is set up as `GET /captain/register` with validation middleware 
     }
   ]
 }
-
+```
 #### or
+```json
 {
     "message": "Captain already exists"
 }
-
+```
 #### Example cURL Request
+```bash
 curl "http://localhost:5000/captain/register?email=test@example.com&fullName.firstName=John&fullName.lastName=Doe&password=secure123&vehicle.color=red&vehicle.plate=XYZ-789&vehicle.capacity=4&vehicle.vehicleType=car"
+```
