@@ -9,8 +9,15 @@ export const register = async(req , res , next)=>{
             errors:errors.array()
         })
     }
+    
     //console.log(req.body)
     const {fullName, email , password} = req.body;
+    const doesUserExist = await User.find({email});
+    if(doesUserExist.length > 0){
+        return res.status(400).json({
+            message:"User already exists"
+        })
+    }
     const hashedPassword = await User.hashPassword(password);
     console.log(hashedPassword)
     console.log(fullName.firstName)
