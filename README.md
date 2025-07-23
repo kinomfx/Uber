@@ -130,40 +130,43 @@ curl -X POST http://localhost:5000/users/login \
 
 ## Captain API Documentation
 
+## Captain API Documentation
+
 ### Register Captain
-**Endpoint**: `GET /captain/register`
+**Endpoint**: `POST /captains/register`
 
 Registers a new captain (driver) and returns an authentication token.
 
-#### Request Parameters (Query Parameters)
-Since the route is set up as `GET /captain/register` with validation middleware expecting data in the body, it should be a `POST` request. However, documenting it as it is currently defined:
-
-
-
-**Query Parameters:**
-*   `email`: string (required, valid email format)
-*   `fullName.firstName`: string (required, minimum 3 characters)
-*   `fullName.lastName`: string (optional)
-*   `password`: string (required, minimum 6 characters)
-*   `vehicle.color`: string (required, minimum 3 characters)
-*   `vehicle.plate`: string (required, minimum 3 characters)
-*   `vehicle.capacity`: number (required, integer between 1 and 10)
-*   `vehicle.vehicleType`: string (required, must be one of: `bike`, `car`, `auto`)
+#### Request Body
+```json
+{
+  "fullName": {
+    "firstName": "string", // required, min 3 characters
+    "lastName": "string"   // optional
+  },
+  "email": "string",        // required, valid email
+  "password": "string",     // required, min 6 characters
+  "vehicle": {
+    "color": "string",      // required, min 3 characters
+    "plate": "string",      // required, min 3 characters
+    "capacity": 4,          // required, integer 1-10
+    "vehicleType": "car"    // required, one of: bike, car, auto
+  }
+}
+```
 
 #### Validation Rules
-
-*   `email`: Must be a valid email address format.
-*   `fullName.firstName`: Minimum 3 characters required.
-*   `password`: Minimum 6 characters required.
-*   `vehicle.color`: Minimum 3 characters required.
-*   `vehicle.plate`: Minimum 3 characters required.
-*   `vehicle.capacity`: Must be an integer between 1 and 10.
-*   `vehicle.vehicleType`: Must be one of `bike`, `car`, or `auto`.
+- `email`: Must be a valid email address format.
+- `fullName.firstName`: Minimum 3 characters required.
+- `password`: Minimum 6 characters required.
+- `vehicle.color`: Minimum 3 characters required.
+- `vehicle.plate`: Minimum 3 characters required.
+- `vehicle.capacity`: Must be an integer between 1 and 10.
+- `vehicle.vehicleType`: Must be one of `bike`, `car`, or `auto`.
 
 #### Responses
 
 ##### Success (201 Created)
-
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -184,8 +187,10 @@ Since the route is set up as `GET /captain/register` with validation middleware 
     "updatedAt": "2025-07-27T12:00:00.000Z"
   }
 }
+```
 
-#### Error (400 Bad Request)
+##### Error (400 Bad Request)
+```json
 {
   "errors": [
     {
@@ -195,11 +200,136 @@ Since the route is set up as `GET /captain/register` with validation middleware 
     }
   ]
 }
-
-#### or
+```
+```json
 {
-    "message": "Captain already exists"
+  "message": "Captain already exists"
 }
+```
 
-#### Example cURL Request
-curl "http://localhost:5000/captain/register?email=test@example.com&fullName.firstName=John&fullName.lastName=Doe&password=secure123&vehicle.color=red&vehicle.plate=XYZ-789&vehicle.capacity=4&vehicle.vehicleType=car"
+---
+
+### Login Captain
+**Endpoint**: `POST /captains/login`
+
+Authenticates a captain and returns an authentication token.
+
+#### Request Body
+```json
+{
+  "email": "string",    // required, valid email
+  "password": "string"  // required, min 6 characters
+}
+```
+
+#### Validation Rules
+- `email`: Must be a valid email address format.
+- `password`: Minimum 6 characters required.
+
+#### Responses
+
+##### Success (200 OK)
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john@example.com",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC-123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "_id": "64c1e9a8f9b4a2c9a8b1c2d3",
+    "createdAt": "2025-07-27T12:00:00.000Z",
+    "updatedAt": "2025-07-27T12:00:00.000Z"
+  }
+}
+```
+
+##### Error (400 Bad Request)
+```json
+{
+  "errors": [
+    {
+      "msg": "Password must be atleast 6 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+##### Error (401 Unauthorized)
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+---
+
+### Get Captain Profile
+**Endpoint**: `GET /captains/profile`
+
+Retrieves the profile information of the authenticated captain.
+
+#### Authentication
+- Requires a valid JWT token in the `Authorization` header (e.g., `Bearer <token>`) or as a cookie.
+
+#### Responses
+
+##### Success (200 OK)
+```json
+{
+  "captain": {
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john@example.com",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC-123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "_id": "64c1e9a8f9b4a2c9a8b1c2d3",
+    "createdAt": "2025-07-27T12:00:00.000Z",
+    "updatedAt": "2025-07-27T12:00:00.000Z"
+  }
+}
+```
+
+##### Error (404 Not Found)
+```json
+{
+  "message": "Captain not found"
+}
+```
+
+---
+
+### Logout Captain
+**Endpoint**: `GET /captains/logout`
+
+Logs out the current captain by blacklisting the token and clearing the cookie.
+
+#### Authentication
+- Requires a valid JWT token in the `Authorization` header or as a cookie.
+
+#### Responses
+
+##### Success (200 OK)
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+##### Error (401 Unauthorized)
+```json
