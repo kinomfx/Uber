@@ -1,27 +1,55 @@
 import React from 'react'
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
+import { CaptainDataContext } from "../../context/CaptainContext.jsx";
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 const CaptainSignUp = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
-  const [userData , setUserData] = React.useState({});
-  const handleSubmit = (e) => {
-      e.preventDefault();
-      setUserData({
-          fullName:{
-              firstName: firstName,
-              lastName: lastName
-          },
-          email: email,
-          password: password
-      });
-      setFirstName('')
-      setLastName('')
-      setPassword('');
-      setEmail('');
-  }
+  const [vehicleColor, setVehicleColor] = useState('');
+  const [vehiclePlate, setVehiclePlate] = useState('');
+  const [vehicleCapacity, setVehicleCapacity] = useState('');
+  const [vehicleType, setVehicleType] = useState('');
+  const {captain , setCaptain} = React.useContext(CaptainDataContext);
+  const navigate = useNavigate();
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    const captainData = {
+      fullName: {
+        firstName,
+        lastName
+      },
+      email,
+      password,
+      vehicle: {
+        color: vehicleColor,
+        plate: vehiclePlate,
+        capacity: Number(vehicleCapacity),
+        vehicleType
+      }
+    };
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
+    console.log(response.status);
+    if(response.status === 201) {
+      setCaptain(response.data.captain);
+      localStorage.setItem('token', response.data.token);
+      navigate('/captain-home');
+    }
+    // clear fields if needed
+    setEmail('');
+    setPassword('');
+    setFirstName('');
+    setLastName('');
+    setVehicleColor('');
+    setVehiclePlate('');
+    setVehicleCapacity('');
+    setVehicleType('');
+
+
+  };
   return (
    <div className='flex-col flex justify-between h-screen w-screen'>
         <div >
@@ -70,6 +98,49 @@ const CaptainSignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             />
+            <h3 className='text-lg mb-2 font-semibold'>Vehicle Information</h3>
+            <div className='flex w-full'>
+            <input
+              type="text"
+              className="border bg-[#eeeeee] mb-5 rounded px-4 py-2 m-2 w-1/2 text-base font-medium placeholder:text-gray-500 border"
+              placeholder="Vehicle Color"
+              value={vehicleColor}
+              onChange={e => setVehicleColor(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Vehicle Plate"
+              className="border bg-[#eeeeee] mb-5 rounded px-4 py-2 m-2 w-1/2 text-base font-medium placeholder:text-gray-500 border"
+              value={vehiclePlate}
+              onChange={e => setVehiclePlate(e.target.value)}
+              required
+            />
+            </div>
+            <div className='flex w-full'>
+               <input
+              type="number"
+              placeholder="Vehicle Capacity"
+              className="border bg-[#eeeeee] mb-5 rounded px-4 py-2 m-2 w-full text-base font-medium placeholder:text-gray-500 border"
+              value={vehicleCapacity}
+              onChange={e => setVehicleCapacity(e.target.value)}
+              required
+              min={1}
+              max={10}
+            />
+            <select
+              value={vehicleType}
+              onChange={e => setVehicleType(e.target.value)}
+              required
+              className="border bg-[#eeeeee] mb-5 rounded px-4 py-2 m-2 w-full text-base font-medium placeholder:text-gray-500 border"
+  
+            >
+              <option value="" disabled>Select Your Vehicle</option>
+              <option value="bike">Bike</option>
+              <option value="car">Car</option>
+              <option value="auto">Auto</option>
+            </select>
+            </div>
             <button
             className="border bg-[#111] text-white font-semibold mb-2 rounded px-4 py-2 m-2 w-full text-lg font-medium placeholder:text-gray-500"
             >Signup</button>
