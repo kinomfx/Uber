@@ -5,11 +5,11 @@ import {useGSAP} from '@gsap/react'
 import gsap from 'gsap';  
 import 'remixicon/fonts/remixicon.css'
 import { set } from 'mongoose';
-import VehiclePanel from './VehiclePanel.jsx';
-import LocationSearchPanel from './LocationSearchPanel.jsx';
-import ConfirmedRide from './ConfirmedRide.jsx';
-import WaitForDriver from './WaitForDriver.jsx';
-import LookingForDriver from './LookingForDriver.jsx';
+import VehiclePanel from '../../Components/VehiclePanel.jsx'
+import LocationSearchPanel from '../../Components/LocationSearchPanel.jsx';
+import ConfirmedRide from '../../Components/ConfirmedRide.jsx';
+import WaitForDriver from '../../Components//WaitForDriver.jsx';
+import LookingForDriver from '../../Components/LookingForDriver.jsx';
 const Home = () => {
 
   const [pickup, setPickup] = React.useState('');

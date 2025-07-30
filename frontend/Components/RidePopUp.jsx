@@ -1,0 +1,62 @@
+import React from 'react'
+
+const RidePopUp = ({setRidePopUpPanel , setConfirmRidePanel}) => {
+  return (
+    <div>
+        <div className=' flex w-full justify-between'>
+      <h3 className='text-2xl font-semibold mb-5'>New Ride Available</h3>
+      <i className="ri-arrow-down-s-line text-3xl" height="32" width="32" onClick={()=>{
+                setRidePopUpPanel(false);
+      }}></i>
+    </div>
+      <div className='flex items-center justify-between p-3 bg-yellow-400 rounded-xl'>
+            <div className='flex items-center gap-3 '>
+            <img src="/MONIKUSER.jpg" className='h-15 w-15 rounded-full object-cover '  alt="" />
+            <h2 className='text-xl font-medium'>Monik Shree</h2>
+        </div>
+        <h5 className='text-lg font-semibold'>2.2 km</h5>
+      </div>
+   <div className=' flex flex-col gap-5 justify-center items-center w-full'>  
+      <div className='w-full mt-5'>
+        <div className='flex  gap-5  p-3 border-b-2'>
+          <i className="ri-map-pin-line text-2xl "></i>
+          <div>
+            <h3 className='text-lg font-medium'> 
+              562/11A
+            </h3>
+            <p className='text-sm text-gray-600'>Talab Tillo , Jammu</p>
+          </div>
+        </div>
+        <div className='flex  gap-5  p-3 border-b-2'>
+          <i className="ri-map-pin-range-fill text-2xl"></i>
+          <div>
+            <h3 className='text-lg font-medium'> 
+              562/11A
+            </h3>
+            <p className='text-sm text-gray-600'>Talab Tillo , Jammu</p>
+          </div>
+        </div>
+        <div className='flex  gap-5 p-3 border-b-2'>
+          <i className="ri-cash-line text-2xl"></i>
+          <div>
+            <h3 className='text-lg font-medium'> 
+             ₹193.20
+            </h3>
+            <p className='text-sm text-gray-600'>Cash Cash</p>
+          </div>
+        </div>
+      </div>
+      <div className='flex items-center justify-between'>
+        <button onClick={()=>{
+            setConfirmRidePanel(true);
+        }} className=' mx-2 w-full border-2 black rounded-lg p-2  bg-green-600 text-white font-semibold'>Accept</button>
+        <button onClick={()=>{
+            setRidePopUpPanel(false);
+        }} className='mx-2 w-full border-2 black rounded-lg  p-2  bg-gray-500 text-white font-semibold'>Ignore</button>
+      </div>
+      </div>
+    </div>
+  )
+}
+
+export default RidePopUp

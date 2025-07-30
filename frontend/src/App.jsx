@@ -10,6 +10,8 @@ import Logout from './pages/Logout.jsx'
 import UserProtectiWrapper from './pages/UserProtectiWrapper.jsx'
 import CaptainHome from './pages/CaptainHome.jsx'
 import CaptainLogout from './pages/CaptainLogout.jsx'
+import Riding from './pages/Riding.jsx'
+import CaptainRiding from './pages/CaptainRiding.jsx'
 const App = () => {
   return (
     <div className=' flex items-center justify-center'>
@@ -35,6 +37,8 @@ const App = () => {
           </UserProtectiWrapper>
         }></Route>
         <Route path='/captain-logout' element={<CaptainLogout/>}></Route>
+        <Route path='/riding' element={<Riding/>}></Route>
+        <Route path='/captain-riding' element={<CaptainRiding/>}></Route>
       </Routes>
     </div>
   )

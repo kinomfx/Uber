@@ -1,4 +1,4 @@
-// main.jsx
+
 
 import { StrictMode } from 'react'; // It's good practice to keep this!
 import { createRoot } from 'react-dom/client';
