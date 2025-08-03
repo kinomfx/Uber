@@ -3,6 +3,8 @@ import cors from "cors";
 import Userrouter from "./routes/user.route.js";
 import cookieParser from "cookie-parser";
 import captianRouter from "./routes/captian.routes.js";
+import { router } from "./routes/maps.routes.js";
+import { RideRouter } from "./routes/rides.routes.js";
 const app = express();
 
 app.use(cors());
@@ -16,5 +18,6 @@ app.get("/", (req, res) => {
 });
 app.use('/captains' , captianRouter)
 app.use("/users", Userrouter); // e.g., POST /users/register
-
+app.use('/maps' , router)
+app.use('/rides' , RideRouter)
 export default app;
