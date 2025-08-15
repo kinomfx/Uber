@@ -28,7 +28,7 @@ const CaptainHome = () => {
           try {
             const obj = await getLocation();
             setLocation(obj);  
-            console.log(obj.distance)
+            console.log(obj)
             updateCaptain({
               ...captain,
               location: obj.data
@@ -49,15 +49,19 @@ const CaptainHome = () => {
       console.log('Ride Data:', rideData);
       console.log('Token in frontend:', localStorage.getItem('token'));
       try {
-        const obj = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-distance-time`, {
-          origin: `${location.latitude},${location.longitude}`,
-          destination: `${rideData?.pickup}`
-        }, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+        const obj = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/maps/get-distance-time-2`,
+          {
+            params: {
+              origin: `${location.latitude},${location.longitude}`,
+              destination: `${rideData?.pickup}`
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
           }
-        });
-        setDistance(obj.data.distance);
+        );
+        setDistance(obj.data.response.distance);
         console.log(distance);
       } catch (error) {
           throw error;

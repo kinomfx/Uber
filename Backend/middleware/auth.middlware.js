@@ -56,12 +56,12 @@ export const authCaptain = async(req , res , next)=>{
     const isBlacklisted = await Blacklist.findOne({"token":token});
     if(isBlacklisted){
         return res.status(401).json({
-            message:"Unauthorized"
+            message:"Unauthorized blacklisted"
         })
     }
     if(!token){
         return res.status(401).json({
-            message:"Unauthorized"
+            message:"Unauthorized no token"
         })
     }
      try {
@@ -71,7 +71,7 @@ export const authCaptain = async(req , res , next)=>{
         return next()
      } catch (error) {
         return res.status(401).json({
-            message:"Unauthorized"
+            message:"Unauthorized kuch or reason hai"
         })
      }
 }

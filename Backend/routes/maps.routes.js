@@ -7,5 +7,6 @@ import { authUser } from "../middleware/auth.middlware.js";
 import {query} from "express-validator"
 import { getSuggestions } from "../controller/map.controller.js";
 router.get('/get-coordinates', query('address').isString().isLength({min:3}) ,authUser , mapController)
-router.get('/get-distance-time' ,   query('origin').isString().isLength({min:3}) , query('destination').isString().isLength({min:3}) , authUser , getDistanceTime)
+router.get('/get-distance-time' ,   authUser  ,  getDistanceTime)
+router.get('/get-distance-time-2' ,   authCaptain  ,  getDistanceTime)
 router.get('/get-suggestions' , query('address').isString().isLength({min:3}) , authUser , getSuggestions);

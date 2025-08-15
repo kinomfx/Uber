@@ -17,7 +17,7 @@ export const mapController = async (req , res)=>{
 }
 
 export const getDistanceTime = async(req , res)=>{
-    const {origin , destination} = req.body;
+    const {origin , destination} = req.query;
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
