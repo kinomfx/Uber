@@ -8,12 +8,11 @@ const UserLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setUserData } = useContext(UserDataContext);
-    const socket = useContext(SocketContext);
+    const {socket} = useContext(SocketContext);
     const navigate = useNavigate();
 
     // State to track if the socket is connected
     const [isSocketConnected, setIsSocketConnected] = useState(socket?.connected || false);
-
     // Effect to listen for socket connection changes
     
 

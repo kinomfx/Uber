@@ -6,15 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { SocketContext } from '../../context/SocketContext.jsx';
 import { useEffect } from 'react';
-import { getLocation } from '../../../Backend/services/maps.services.js';
+import { getLocation } from '../../Methods/utils.js';
 import axios from 'axios';
 const CaptainLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [captainData , setCaptainData] = useState({});
   const {captain , setCaptain , loginCaptain} = React.useContext(CaptainDataContext);
-  const [location , setLocation] = useState({lat : 0 , lng : 0});
-  const socket = useContext(SocketContext);
+  const [location , setLocation] = useState({latitude : 0 , longitude : 0});
+  const {socket} = useContext(SocketContext);
   const navigate = useNavigate();
   useEffect(()=>{
         const func = async()=>{

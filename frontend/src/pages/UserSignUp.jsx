@@ -12,7 +12,7 @@ const UserSignUp = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const { userData , setUserData } = useContext(UserDataContext);
-    const socket = useContext(SocketContext);
+    const {socket} = useContext(SocketContext);
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();

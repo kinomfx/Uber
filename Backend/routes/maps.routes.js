@@ -1,4 +1,6 @@
 import express from "express"
+import { authCaptain } from "../middleware/auth.middlware.js";
+import { verifyTokenAndGetAccount } from "../middleware/auth.middlware.js";
 export const  router = express.Router();
 import { getDistanceTime, mapController } from "../controller/map.controller.js";
 import { authUser } from "../middleware/auth.middlware.js";

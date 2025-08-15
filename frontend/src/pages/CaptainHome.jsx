@@ -10,7 +10,7 @@ import { useContext } from 'react'
 import {CaptainDataContext} from '../../context/CaptainContext.jsx'
 import { SocketContext } from '../../context/SocketContext.jsx'
 import { useEffect } from 'react'
-import { getLocation } from '../../../Backend/services/maps.services.js'
+import { getLocation } from '../../Methods/utils.js'
 import axios from 'axios';
 const CaptainHome = () => {
   const navigate = useNavigate()
@@ -19,9 +19,52 @@ const CaptainHome = () => {
   const ridePopUpRef = useRef(null);
   const confirmRideRef = useRef(null);
   const {captain , updateCaptain} = useContext(CaptainDataContext);
-  const socket = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
   const [rideData ,setRideData] = useState(null);
-  
+  const [distance , setDistance] = useState(0);
+  const [location , setLocation] = useState({latitude : 0 , longitude : 0});
+  useEffect(()=>{
+        const func = async()=>{
+          try {
+            const obj = await getLocation();
+            setLocation(obj);  
+            console.log(obj.distance)
+            updateCaptain({
+              ...captain,
+              location: obj.data
+            });
+          } catch (error) {
+              throw error;
+          }
+        }
+        func();
+        const intervalref = setInterval(func , 10000);
+        return ()=>{
+          clearInterval(intervalref)
+        }
+      } ,[] )
+  useEffect(()=>{
+    const func = async()=>{
+      if(!rideData) return ;
+      console.log('Ride Data:', rideData);
+      console.log('Token in frontend:', localStorage.getItem('token'));
+      try {
+        const obj = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-distance-time`, {
+          origin: `${location.latitude},${location.longitude}`,
+          destination: `${rideData?.pickup}`
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setDistance(obj.data.distance);
+        console.log(distance);
+      } catch (error) {
+          throw error;
+      }
+    }
+    func();
+  } , [captain , rideData])
   useEffect(() => {
   if (socket) {
     console.log('Socket connected:', socket.connected);

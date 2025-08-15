@@ -5,9 +5,6 @@ import { useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { useEffect } from 'react';
 import { CaptainDataContext } from '../context/CaptainContext';
-import { getAddressCoordinate } from '../../Backend/services/maps.services';
-import axios from 'axios';
-import { getDistanceTime } from '../../Backend/controller/map.controller';
 const ConfirmRide = ({setConfirmRidePanel , setRidePopUpPanel , rideData }) => {
   const [otp , setOTP] = useState('')
   const [pickup , setPickup] = useState('')
@@ -16,7 +13,7 @@ const ConfirmRide = ({setConfirmRidePanel , setRidePopUpPanel , rideData }) => {
   const [socketId , setSocketId] = useState('')
   const [userId , setUserId] = useState('')
   const [userName , setUserName] = useState('');
-  const socket = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
   const captain = useContext(CaptainDataContext)
   const [distance , setDistance] = useState(0);
   useEffect(()=>{

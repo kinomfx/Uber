@@ -11,7 +11,7 @@ const RidePopUp = ({setRidePopUpPanel , setConfirmRidePanel , rideData}) => {
   const [socketId , setSocketId] = useState('')
   const [userId , setUserId] = useState('')
   const [userName , setUserName] = useState('');
-  const socket = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
   const captainData = useContext(CaptainDataContext);
   const captain = captainData?.captain
   useEffect(()=>{

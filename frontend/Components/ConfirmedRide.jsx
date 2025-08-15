@@ -4,7 +4,7 @@ import { SocketContext } from '../context/SocketContext'
 import { useContext } from 'react'
 import { UserDataContext } from '../context/UserContext.jsx';
 const ConfirmedRide = ({setConfirmRidePanel , setVehicleFound , pickup , destination , fare , setVehiclePanel , createRide}) => {
-  const socket = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
   const {userData} = useContext(UserDataContext);
   return (
     <div className='flex flex-col items-center justify-center w-full'>
@@ -48,10 +48,10 @@ const ConfirmedRide = ({setConfirmRidePanel , setVehicleFound , pickup , destina
       </div>
       <button onClick={async()=>{
         const res = await createRide();
-        console.log(res);
         setVehicleFound(true)
         setConfirmRidePanel(false)
         setVehiclePanel(false)
+        console.log("this is the res : " , res)
         const pickup = res.data.ride.pickup 
         const destination = res.data.ride.destination
         const fare = res.data.ride.fare

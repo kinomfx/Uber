@@ -1,15 +1,18 @@
 import express from "express";
-import cors from "cors";
 import Userrouter from "./routes/user.route.js";
 import cookieParser from "cookie-parser";
 import captianRouter from "./routes/captian.routes.js";
 import { router } from "./routes/maps.routes.js";
 import { RideRouter } from "./routes/rides.routes.js";
+import cors from "cors";
 const app = express();
 
 app.use(cors({
-  origin:'*'
+  origin: "http://localhost:5173",
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

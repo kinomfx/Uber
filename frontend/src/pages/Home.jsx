@@ -15,9 +15,9 @@ import axios from 'axios';
 import { SocketContext } from '../../context/SocketContext.jsx';
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getLocation } from '../../../Backend/services/maps.services.js';
+import { getLocation } from '../../Methods/utils.js';
 const Home = () => {
-  const socket = useContext(SocketContext)
+  const {socket} = useContext(SocketContext)
   const [pickup, setPickup] = React.useState('');
   const [destination, setDestination] = React.useState('');
   const [panel , setPanel] = React.useState(false);
@@ -164,16 +164,19 @@ const Home = () => {
     }
   }
   const submitHandler = async(e) => {
-    e.preventDefault();
-    const fare = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare` , {
+    e.preventDefault()
+    try {
+      const fare = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare` , {
       params:{pickup:pickup , destination:destination} , 
       headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    }
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     })
-    // console.log(fare.data['response']);
-    setFare(fare.data['response']);
-    setVehiclePanel(true);
+      setFare(fare.data['response']);
+      setVehiclePanel(true);
+    } catch (err) {
+      console.error('Fare fetch error:', err);
+    }
     // Handle form submission logic here
   }
   return (

@@ -7,7 +7,7 @@ import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
 import UserProvider from '../context/UserContext.jsx'; // Import the provider
 import CaptainContext from '../context/CaptainContext.jsx'; // Import the CaptainContext
-import { SocketProvider } from '../context/SocketContext.jsx';
+import  SocketProvider  from '../context/SocketContext.jsx';
 createRoot(document.getElementById('root')).render(
   
     <BrowserRouter>
