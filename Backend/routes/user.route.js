@@ -21,6 +21,5 @@ Userrouter.post('/login',[
 ]  , login);
 
 Userrouter.get('/profile' , authUser , getProfile )
-
 Userrouter.get('/logout', authUser , logout);
 export default Userrouter
