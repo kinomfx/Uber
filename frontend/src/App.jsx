@@ -12,7 +12,34 @@ import CaptainHome from './pages/CaptainHome.jsx'
 import CaptainLogout from './pages/CaptainLogout.jsx'
 import Riding from './pages/Riding.jsx'
 import CaptainRiding from './pages/CaptainRiding.jsx'
+import socket from '../Methods/server.js'
+import { useEffect } from 'react'
 const App = () => {
+  useEffect(() => {
+        if (!socket) return;
+
+        // Listen for the 'connect' event
+        const onConnect = () => {
+            console.log('Socket connected successfully with ID:', socket.id);
+        };
+
+        // Listen for the 'disconnect' event
+        const onDisconnect = () => {
+            console.log('Socket disconnected.');
+        };
+
+        if (socket.connected) {
+            onConnect();
+        }
+
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
+
+        return () => {
+            socket.off('connect', onConnect);
+            socket.off('disconnect', onDisconnect);
+        };
+    }, [socket]);
   return (
     <div className=' flex items-center justify-center'>
       <Routes>

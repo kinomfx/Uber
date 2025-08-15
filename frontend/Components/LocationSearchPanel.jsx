@@ -1,32 +1,56 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const LocationSearchPanel = ({vehiclePanel , setVehiclePanel}) => {
-  const ClickHandler = (e)=>{
-    setVehiclePanel(true);
-  }
-  const locations =[{location:"4B near kapoor's cafe , Sheriyans Coding School , Bhopal"} , 
-    {location:"5B near shree rayu's cafe , Delhi Technological University , Delhi"} , 
-    {location:"4B near rayus's cafe , Reyansh College of Hotel Management , Hydrabad"}, 
-    {location:"4B near Sharmas' cafe , KR Managlam  ,Haryana"}, 
-    {location:"4B near Shree's cafe , Sheriyans Coding School , Bhopal"}]
-    /*<div className='w-full flex justify-between my-2 text-black active:border-2 '>
-              <h2 className='rounded-full bg-gray-400  h-10 w-10 flex justify-center items-center m-1'>
-              <i className="px-2 text-2xl ri-map-pin-line"></i>
-              </h2>
-              <h4 className='px-3'>24B near kapoor's cafe , Sheriyans Coding School , Bhopal</h4>
-            </div> */
+const LocationSearchPanel = ({ vehiclePanel, setVehiclePanel  ,query  , setPickup , setDestination , toggle}) => {
+  const [locations, setLocations] = useState([]);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+  if (!query || query.trim() === '') return;
+
+  const fetchSuggestions = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
+        params: { address: query.trim() },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      setLocations(response.data);
+    } catch (error) {
+      console.error('Failed to fetch suggestions:', error);
+    }
+  };
+
+  fetchSuggestions();
+}, [query]);
+
+  const ClickHandler = (location) => {
+    if(toggle=='pickup'){
+      setPickup(location);
+    }
+    else{
+      setDestination(location)
+    }
+
+  };
+
   return (
     <div>
-          {locations.map((ele , index)=>(
-            <div onClick={(e)=>ClickHandler(e)} key={index} className='w-full flex justify-between my-2 text-black active:border-2 '>
-              <h2 className='rounded-full bg-gray-400  h-10 w-10 flex justify-center items-center m-1'>
-              <i className="px-2 text-2xl ri-map-pin-line"></i>
-              </h2>
-              <h4 className='px-3'>{ele.location}</h4>
-            </div>
-          ))}
+      {locations.map((ele, index) => (
+        <div
+          key={index}
+          onClick={() => ClickHandler(ele)}
+          className="w-full flex items-center gap-4 my-2 text-black border-2 border-transparent rounded-xl hover:border-black active:border-black cursor-pointer"
+        >
+          <h2 className="rounded-full bg-gray-400 h-10 w-10 flex justify-center items-center m-1">
+            <i className="px-2 text-2xl ri-map-pin-line"></i>
+          </h2>
+          <h4 className="px-3">{ele}</h4>
+        </div>
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default LocationSearchPanel
+export default LocationSearchPanel;

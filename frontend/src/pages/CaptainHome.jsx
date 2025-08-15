@@ -6,12 +6,47 @@ import RidePopUp from '../../Components/RidePopUp'
 import {useGSAP} from '@gsap/react'
 import ConfirmRide from '../../Components/ConfirmRide.jsx'
 import gsap from 'gsap'; 
+import { useContext } from 'react'
+import {CaptainDataContext} from '../../context/CaptainContext.jsx'
+import { SocketContext } from '../../context/SocketContext.jsx'
+import { useEffect } from 'react'
+import { getLocation } from '../../../Backend/services/maps.services.js'
+import axios from 'axios';
 const CaptainHome = () => {
   const navigate = useNavigate()
-  const [ridePopUpPanel , setRidePopUpPanel] = useState(true);
+  const [ridePopUpPanel , setRidePopUpPanel] = useState(false);
   const [confirmRidePanel , setConfirmRidePanel] = useState(false);
   const ridePopUpRef = useRef(null);
   const confirmRideRef = useRef(null);
+  const {captain , updateCaptain} = useContext(CaptainDataContext);
+  const socket = useContext(SocketContext);
+  const [rideData ,setRideData] = useState(null);
+  
+  useEffect(() => {
+  if (socket) {
+    console.log('Socket connected:', socket.connected);
+    console.log('Socket ID:', socket.id);
+  }
+}, [socket]);
+  useEffect(() => {
+      // Ensure the socket object exists before trying to use it
+      if (socket) {
+          
+      
+          const handleNewRide = (data) => {
+              setRideData(data);
+              setRidePopUpPanel(true);
+          };
+
+          // 2. Attach the listener with the CORRECT event name
+          socket.on('new_ride', handleNewRide);
+
+          // 3. Return a cleanup function that removes the EXACT same listener
+          return () => {
+              
+          };
+      }
+  }, [socket]);
   useGSAP(function(){
     if(ridePopUpPanel == true){
       gsap.to(ridePopUpRef.current , {
@@ -43,7 +78,7 @@ const CaptainHome = () => {
           <img src="/bg.png" className='w-16 absolute mt-6 ' onClick={()=>{
             navigate('/')
           }}/>
-          <Link className=' text-2xl right-2 top-2 block fixed h-10 w-10 bg-white flex items-center justify-center rounded-full' to='/home'>
+          <Link className=' text-2xl right-2 top-2 block fixed h-10 w-10 bg-white flex items-center justify-center rounded-full' to='/captain-logout'>
            <i className="ri-logout-box-r-line"></i>
         </Link>
         </div>
@@ -54,10 +89,10 @@ const CaptainHome = () => {
           <CaptainDetails/>
       </div>
       <div  ref={ridePopUpRef} className={`fixed z-10 bottom-0 justify-between items-center p-3 text-black bg-white w-full `}>  
-          <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePanel={setConfirmRidePanel}/>
+          <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePanel={setConfirmRidePanel} rideData ={rideData}/>
       </div>
       <div  ref={confirmRideRef} className={`fixed z-10 h-screen bottom-0 justify-between items-center p-3 text-black bg-white w-full `}>  
-          <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setRidePopUpPanel={setRidePopUpPanel}/>
+          <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setRidePopUpPanel={setRidePopUpPanel} rideData = {rideData}/>
       </div>
     </div>
   )

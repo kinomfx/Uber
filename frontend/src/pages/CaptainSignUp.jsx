@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { CaptainDataContext } from "../../context/CaptainContext.jsx";
+import { useContext } from 'react';
+import { SocketContext } from '../../context/SocketContext.jsx';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 const CaptainSignUp = () => {
@@ -13,7 +15,8 @@ const CaptainSignUp = () => {
   const [vehiclePlate, setVehiclePlate] = useState('');
   const [vehicleCapacity, setVehicleCapacity] = useState('');
   const [vehicleType, setVehicleType] = useState('');
-  const {captain , setCaptain} = React.useContext(CaptainDataContext);
+  const socket = useContext(SocketContext);
+  const {captain , setCaptain , loginCaptain} = React.useContext(CaptainDataContext);
   const navigate = useNavigate();
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -28,14 +31,16 @@ const CaptainSignUp = () => {
         color: vehicleColor,
         plate: vehiclePlate,
         capacity: Number(vehicleCapacity),
-        vehicleType
-      }
+        vehicleType 
+      } , 
+      socketId:socket.id
     };
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
     console.log(response.status);
     if(response.status === 201) {
       setCaptain(response.data.captain);
       localStorage.setItem('token', response.data.token);
+      loginCaptain(response.data.captain)
       navigate('/captain-home');
     }
     // clear fields if needed

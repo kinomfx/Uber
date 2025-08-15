@@ -24,7 +24,7 @@ export const create = async ({user , pickup , destination , vehicleType})=>{
     const ride = await Ride.create({user , pickup , destination , fare:fare[vehicleType]  ,OTP:getOTP(5)});
     return ride;
 }
-const getFare = async (pickup, destination) => {
+export const getFare = async (pickup, destination) => {
     if (!pickup || !destination) {
         throw new Error('pickup or destination are required or are not valid');
     }

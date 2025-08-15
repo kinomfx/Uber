@@ -61,7 +61,7 @@ const captainSchema = new mongoose.Schema({
             latitude:{
                 type:Number,
             } ,
-            localStorage:{
+            longitude:{
                 type:Number,
             }
         }
@@ -76,11 +76,18 @@ captainSchema.methods.generateAuthToken = function (){
 captainSchema.methods.comparePassword = async function(password){
     return await bcrypt.compare(password , this.password)
 }
+captainSchema.statics.updateLocationById = async function (id, lat, lng) {
+  return await this.updateOne(
+    { _id: id },
+    { $set: { "location.latitude": lat, "location.longitude": lng } }
+  );
+};
 
 captainSchema.statics.hashPassword = async function(password){
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password , salt)
 }
+
 
 const Captain = mongoose.model("Captain" , captainSchema);
 export default Captain;

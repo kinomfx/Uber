@@ -3,30 +3,52 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import{CaptainDataContext} from '../../context/CaptainContext.jsx'
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { SocketContext } from '../../context/SocketContext.jsx';
+import { useEffect } from 'react';
+import { getLocation } from '../../../Backend/services/maps.services.js';
 import axios from 'axios';
 const CaptainLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [captainData , setCaptainData] = useState({});
-  const {captain , setCaptain} = React.useContext(CaptainDataContext);
+  const {captain , setCaptain , loginCaptain} = React.useContext(CaptainDataContext);
+  const [location , setLocation] = useState({lat : 0 , lng : 0});
+  const socket = useContext(SocketContext);
   const navigate = useNavigate();
+  useEffect(()=>{
+        const func = async()=>{
+          try {
+            const obj = await getLocation();
+            setLocation(obj);
+          } catch (error) {
+              throw error;
+          }
+        }
+        func();
+        const intervalref = setInterval(func , 10000);
+        return ()=>{
+          clearInterval(intervalref)
+        }
+      } ,[] )
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await setCaptain({
-        email: email,
-        password: password
-    })
+    
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, {
         email,
-        password
+        password ,
+        socketId:socket.id 
+
     })
     if(response.status === 200) {
         const data = response.data;
         setCaptain(data?.captain);
+        loginCaptain(data?.captain);
+        console.log(data?.captain);
         localStorage.setItem('token', data?.token);
         navigate('/captain-home');
     }
-      console.log(captainData)
+    
       setEmail('');
       setPassword('');
   }   

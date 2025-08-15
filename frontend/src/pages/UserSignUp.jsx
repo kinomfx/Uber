@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from "react";
 import axios from 'axios';
 import {UserDataContext} from '../../context/UserContext';
+import { SocketContext } from '../../context/SocketContext';
 const UserSignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const { userData , setUserData } = useContext(UserDataContext);
+    const socket = useContext(SocketContext);
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +22,8 @@ const UserSignUp = () => {
             lastName: lastName 
           },
           email: email,
-          password: password
+          password: password , 
+          socketId:socket.id
         }
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser);
         if(response.status === 201) {

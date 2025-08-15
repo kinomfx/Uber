@@ -7,7 +7,10 @@ import { router } from "./routes/maps.routes.js";
 import { RideRouter } from "./routes/rides.routes.js";
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin:'*'
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())

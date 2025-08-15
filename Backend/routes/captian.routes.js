@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { register , login  , profile , logout} from "../controller/captain.controller.js";
+import { register , login  , profile , logout, updateCaptainLocation} from "../controller/captain.controller.js";
 import { authCaptain } from "../middleware/auth.middlware.js";
 const captianRouter = Router();
 
@@ -21,6 +21,5 @@ captianRouter.post("/login", [
 
 captianRouter.get("/profile",authCaptain , profile)
 captianRouter.get("/logout",authCaptain , logout)
-
-
+captianRouter.post('/location' , authCaptain , updateCaptainLocation)
 export default captianRouter;

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { CaptainDataContext } from '../../context/CaptainContext';
 import { useNavigate } from 'react-router-dom';
 const CaptainLogout = () => {
-  const { setUserData } = useContext(CaptainDataContext);
+  const { setCaptain , logoutCaptain} = useContext(CaptainDataContext);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -17,8 +17,9 @@ const CaptainLogout = () => {
       .then((response) => {
         if (response.status === 200) {
           localStorage.removeItem('token');
-          setUserData({});
+          setCaptain(null);
           navigate('/login');
+          logoutCaptain()
         }
       })
       .catch((error) => {

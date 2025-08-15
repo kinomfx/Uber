@@ -2,7 +2,7 @@ import Captain from "../models/captain.model.js";
 
 import { validationResult } from "express-validator";
 
-export const createCaptain = async (fullName , email , hashPassword , vehicle) => {
+export const createCaptain = async (fullName , email , hashPassword , vehicle ,socketId) => {
     if(!fullName || !email || !hashPassword || !vehicle) {
         throw new Error("All fields are required");
     }
@@ -18,7 +18,9 @@ export const createCaptain = async (fullName , email , hashPassword , vehicle) =
             plate: vehicle.plate,
             capacity: vehicle.capacity,
             vehicleType: vehicle.vehicleType,
-        }
+        } ,
+        socketId
+        
     });
 
     return captain;

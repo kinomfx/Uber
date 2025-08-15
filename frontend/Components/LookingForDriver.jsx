@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LookingForDriver = ({setVehicleFound}) => {
+const LookingForDriver = ({setVehicleFound , pickup , destination , fare , setVehiclePanel}) => {
   return (
     <div className='flex flex-col items-center justify-center w-full'>
     <div className=' flex w-full justify-between'>
@@ -17,27 +17,27 @@ const LookingForDriver = ({setVehicleFound}) => {
           <i className="ri-map-pin-line text-2xl "></i>
           <div>
             <h3 className='text-lg font-medium'> 
-              562/11A
+              {pickup.split(' ').slice(0 , 2).join(' ')}
             </h3>
-            <p className='text-sm text-gray-600'>Talab Tillo , Jammu</p>
+            <p className='text-sm text-gray-600'>{pickup.split(' ').slice(2).join(' ')}</p>
           </div>
         </div>
         <div className='flex  gap-5  p-3 border-b-2'>
           <i className="ri-map-pin-range-fill text-2xl"></i>
           <div>
             <h3 className='text-lg font-medium'> 
-              562/11A
+              {destination.split(' ').slice(0 , 2).join(' ')}
             </h3>
-            <p className='text-sm text-gray-600'>Talab Tillo , Jammu</p>
+            <p className='text-sm text-gray-600'>{destination.split(' ').slice( 2).join(' ')}</p>
           </div>
         </div>
         <div className='flex  gap-5 p-3 border-b-2'>
           <i className="ri-cash-line text-2xl"></i>
           <div>
             <h3 className='text-lg font-medium'> 
-             ₹193.20
+             ₹{fare}
             </h3>
-            <p className='text-sm text-gray-600'>Cash Cash</p>
+            <p className='text-sm text-gray-600'></p>
           </div>
         </div>
       </div>

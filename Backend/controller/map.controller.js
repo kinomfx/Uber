@@ -1,5 +1,6 @@
 import { getAddressCoordinate, getOriginDestination, GetSuggestionList } from "../services/maps.services.js"
 import { validationResult } from "express-validator";
+import { getFare } from "../services/rides.services.js";
 
 export const mapController = async (req , res)=>{
     const {address} = req.body;
@@ -23,7 +24,7 @@ export const getDistanceTime = async(req , res)=>{
     }
     try {
         const response = await getOriginDestination(origin , destination);
-        console.log(response);
+        
         res.status(200).json({response});
     } catch (error) {
         res.status(404).json("Something went wrong");
@@ -31,11 +32,21 @@ export const getDistanceTime = async(req , res)=>{
 }
 
 export const getSuggestions = async(req , res)=>{
-    const {address} = req.body;
+    const {address} = req.query;
     try {
         const suggestions = await GetSuggestionList(address);
         res.status(200).json(suggestions);
     } catch (error) {
         res.status(400).json("Something went wrong");
+    }
+}
+
+export const getFares = async(req , res)=>{
+    const {pickup , destination } = req.query;
+    try {
+        const response = await getFare(pickup , destination);
+        res.status(200).json({response});
+    } catch (error) {
+        
     }
 }
