@@ -69,31 +69,31 @@ const CaptainHome = () => {
     }
     func();
   } , [captain , rideData])
+ // Register captain once we know vehicleType
   useEffect(() => {
-  if (socket) {
-    console.log('Socket connected:', socket.connected);
-    console.log('Socket ID:', socket.id);
-  }
-}, [socket]);
+    if (socket &&  captain?.vehicle.vehicleType) {
+      console.log('Registering captain with vehicleType:', captain.vehicle.vehicleType);
+      socket.emit('register_captain',  captain.vehicle.vehicleType);
+    }
+  }, [socket,  captain?.vehicle.vehicleType]);
+
+  // Ride listener
   useEffect(() => {
-      // Ensure the socket object exists before trying to use it
-      if (socket) {
-          
-      
-          const handleNewRide = (data) => {
-              setRideData(data);
-              setRidePopUpPanel(true);
-          };
+    if (!socket) return;
 
-          // 2. Attach the listener with the CORRECT event name
-          socket.on('new_ride', handleNewRide);
+    const handleNewRide = (data) => {
+      console.log("New ride received:", data);
+      setRideData(data);
+      setRidePopUpPanel(true);
+    };
 
-          // 3. Return a cleanup function that removes the EXACT same listener
-          return () => {
-              
-          };
-      }
+    socket.on('new_ride', handleNewRide);
+
+    return () => {
+      socket.off('new_ride', handleNewRide);
+    };
   }, [socket]);
+
   useGSAP(function(){
     if(ridePopUpPanel == true){
       gsap.to(ridePopUpRef.current , {

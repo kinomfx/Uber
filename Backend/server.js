@@ -22,12 +22,18 @@ io.on('connection', (socket) => {
     // 1. Emit an event ONLY to the newly connected user.
     socket.emit('hi', 'Welcome to the server!');
 
+    socket.on('register_captain', (vehicleType) => {
+        console.log(`Captain ${socket.id} registered with vehicle type: ${vehicleType}`);
+        socket.join(vehicleType);  
+        console.log(`Captain ${socket.id} joined room: ${vehicleType}`);
+    });
     
     socket.on('new_ride_available', (data) => {
         console.log(`new ride available: ${socket.id}`);
         console.log(data);
+        const {vehicleToggle} = data;
         // Broadcast to everyone EXCEPT the sender.
-        socket.broadcast.emit('new_ride', data);
+        io.to(vehicleToggle).emit('new_ride', data);
     });
 
     socket.on('ride_accepted', (data) => {

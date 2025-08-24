@@ -3,7 +3,7 @@ import 'remixicon/fonts/remixicon.css'
 import { SocketContext } from '../context/SocketContext'
 import { useContext } from 'react'
 import { UserDataContext } from '../context/UserContext.jsx';
-const ConfirmedRide = ({setConfirmRidePanel , setVehicleFound , pickup , destination , fare , setVehiclePanel , createRide}) => {
+const ConfirmedRide = ({setConfirmRidePanel , setVehicleFound , pickup , destination , fare , setVehiclePanel , createRide , vehicleToggle}) => {
   const {socket} = useContext(SocketContext);
   const {userData} = useContext(UserDataContext);
   return (
@@ -58,9 +58,11 @@ const ConfirmedRide = ({setConfirmRidePanel , setVehicleFound , pickup , destina
         const socketId = socket.id;
         const userId = res.data.ride.user;
         const userName = userData.fullName.firstName + " " + userData.fullName.lastName;
+        const vehicle = vehicleToggle;
+        console.log('vehicle : ' , vehicle);
         console.log(userName);
         if(socket){
-          socket.emit('new_ride_available' , {pickup , destination , fare ,socketId , userId ,userName});
+          socket.emit('new_ride_available' , {pickup , destination , fare ,socketId , userId ,userName ,vehicleToggle});
         }
         }} className=' mt-5 w-full border-2 black rounded-lg p-2 bg-green-600 text-white font-semibol'>Confirm Ride</button>
       </div>
