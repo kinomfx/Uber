@@ -39,6 +39,9 @@ const Home = () => {
   const location = useLocation()
   const [locationData, setLocationData] = useState({ lat: 0, lng: 0 })
   const navigate = useNavigate()
+  const [originLoc, setOriginLoc] = useState('')
+  const [destinationLoc, setDestinationLoc] = useState('')
+  const [otp, setOTP] = useState(null)
 
   // get live location
   useEffect(() => {
@@ -147,9 +150,12 @@ const Home = () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
-      )
+      ) 
+      setOriginLoc(pickup)
+      setDestinationLoc(destination)
       setFare(fare.data['response'])
       setVehiclePanel(true)
+      setPanel(false)
     } catch (err) {
       console.error('Fare fetch error:', err)
     }
@@ -166,7 +172,7 @@ const Home = () => {
 
       {/* MAP (always in the back) */}
       <div className="h-full w-full z-0">
-        <Maps center={locationData} />
+        <Maps  pickup={originLoc} destination={destinationLoc}/>
       </div>
 
       {/* MAIN PANEL (bottom sheet) */}
@@ -265,6 +271,7 @@ const Home = () => {
           fare={fare[vehicleToggle]}
           setVehiclePanel={setVehiclePanel}
           vehicleToggle={vehicleToggle}
+          setOTP={setOTP}
         />
       </div>
 
@@ -296,6 +303,7 @@ const Home = () => {
           plateNumber={plateNumber}
           driverName={driverName}
           vehicleToggle={vehicleToggle}
+          otp = {otp}
         />
       </div>
     </div>

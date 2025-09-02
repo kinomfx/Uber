@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import {CaptainDataContext }from '../context/CaptainContext';
-const RidePopUp = ({setRidePopUpPanel , setConfirmRidePanel , rideData}) => {
+const RidePopUp = ({setRidePopUpPanel , setConfirmRidePanel , rideData , setOTP}) => {
   const [pickup , setPickup] = useState('')
   const [destination , setDestination] = useState('')
   const [fare , setFare] = useState('')
@@ -70,6 +70,7 @@ const RidePopUp = ({setRidePopUpPanel , setConfirmRidePanel , rideData}) => {
       <div className='flex items-center justify-between'>
         <button onClick={()=>{
             setConfirmRidePanel(true);
+            setOTP(rideData?.otp)
             socket.emit('ride_accepted', {socketId , rideData  , captain})
         }} className=' mx-2 w-full border-2 black rounded-lg p-2  bg-green-600 text-white font-semibold'>Accept</button>
         <button onClick={()=>{

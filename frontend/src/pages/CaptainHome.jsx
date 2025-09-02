@@ -11,6 +11,7 @@ import {CaptainDataContext} from '../../context/CaptainContext.jsx'
 import { SocketContext } from '../../context/SocketContext.jsx'
 import { useEffect } from 'react'
 import { getLocation } from '../../Methods/utils.js'
+import Maps from '../../Methods/maps.jsx'
 import axios from 'axios';
 const CaptainHome = () => {
   const navigate = useNavigate()
@@ -23,6 +24,7 @@ const CaptainHome = () => {
   const [rideData ,setRideData] = useState(null);
   const [distance , setDistance] = useState(0);
   const [location , setLocation] = useState({latitude : 0 , longitude : 0});
+  const [otp , setOTP] = useState(null);
   useEffect(()=>{
         const func = async()=>{
           try {
@@ -130,13 +132,13 @@ const CaptainHome = () => {
         </Link>
         </div>
       <div className='h-3/5'>
-        <img className='h-full w-full object-cover' src='https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif'></img>
+        <Maps height='400px' pickup={rideData?.pickup} destination={rideData?.destination}/>
       </div>
-      <div className='h-2/5 p-6'>
+      <div className='h-2/5 p-6 z-10'>
           <CaptainDetails/>
       </div>
       <div  ref={ridePopUpRef} className={`fixed z-10 bottom-0 justify-between items-center p-3 text-black bg-white w-full `}>  
-          <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePanel={setConfirmRidePanel} rideData ={rideData}/>
+          <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePanel={setConfirmRidePanel} rideData ={rideData} setOTP={setOTP}/>
       </div>
       <div  ref={confirmRideRef} className={`fixed z-10 h-screen bottom-0 justify-between items-center p-3 text-black bg-white w-full `}>  
           <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setRidePopUpPanel={setRidePopUpPanel} rideData = {rideData}/>

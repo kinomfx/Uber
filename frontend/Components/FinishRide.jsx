@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-const FinishRide = ({setFinishRidePanel}) => {
+const FinishRide = ({setFinishRidePanel , pickup , destination , fare}) => {
   const SubmitHandler = (e)=>{
     e.preventDefault()
   }
@@ -25,25 +25,25 @@ const FinishRide = ({setFinishRidePanel}) => {
           <i className="ri-map-pin-line text-2xl "></i>
           <div>
             <h3 className='text-lg font-medium'> 
-              562/11A
+              {pickup?.split(' ').slice(0 , 2).join(' ')}
             </h3>
-            <p className='text-sm text-gray-600'>Talab Tillo , Jammu</p>
+            <p className='text-sm text-gray-600'>{pickup?.split(' ').slice(2).join(' ')}</p>
           </div>
         </div>
         <div className='flex  gap-5  p-3 border-b-2'>
           <i className="ri-map-pin-range-fill text-2xl"></i>
           <div>
             <h3 className='text-lg font-medium'> 
-              562/11A
+             {destination?.split(' ').slice(0 , 2).join(' ')}
             </h3>
-            <p className='text-sm text-gray-600'>Talab Tillo , Jammu</p>
+            <p className='text-sm text-gray-600'>{destination?.split(' ').slice( 2).join(' ')}</p>
           </div>
         </div>
         <div className='flex  gap-5 p-3 border-b-2'>
           <i className="ri-cash-line text-2xl"></i>
           <div>
             <h3 className='text-lg font-medium'> 
-             ₹193.20
+             ₹{fare?fare:''}
             </h3>
             <p className='text-sm text-gray-600'>Cash Cash</p>
           </div>

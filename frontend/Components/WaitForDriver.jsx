@@ -2,7 +2,7 @@ import React from 'react'
 import { SocketContext } from '../context/SocketContext';
 import { useContext } from 'react';
 import { useEffect } from 'react';
-const WaitForDriver = ({setWaitingDriverPanel , setVehicleFound , pickup , destination , fare ,driverName , plateNumber , vehicleType}) => {
+const WaitForDriver = ({setWaitingDriverPanel , setVehicleFound , pickup , destination , fare ,driverName , plateNumber , vehicleType , otp}) => {
   const socket = useContext(SocketContext)
   return (
     <div className='flex flex-col items-center justify-center w-full'>
@@ -13,10 +13,11 @@ const WaitForDriver = ({setWaitingDriverPanel , setVehicleFound , pickup , desti
     </div>
     <div className='flex items-center justify-between w-full'>
         <img  className='h-12 ' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_538,w_956/v1688398986/assets/90/34c200-ce29-49f1-bf35-e9d250e8217a/original/UberX.png" alt="" />
-        <div className='text-right'>
+        <div className=''>
             <h2 className='text-lg font-medium '>{driverName}</h2>
             <h4 className='text-lg font-semibold -mt-1 -mb-1'>{plateNumber}</h4>
             <p className='text-sm text-gray-600'>{vehicleType}</p>
+            {otp!='' && <p className='text-sm  font-semibold text-gray-600 text-left'>OTP : {otp}</p>}
         </div>
     </div>
    <div className=' flex flex-col gap-5 justify-center items-center w-full'>  
