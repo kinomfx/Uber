@@ -40,7 +40,7 @@ const ConfirmRide = ({ setConfirmRidePanel, setRidePopUpPanel, rideData }) => {
       alert("Invalid OTP. Please try again.");
     }
   };
-  console.log("Navigating to captain-riding with:", rideData);
+  
 
   return (
     <div>

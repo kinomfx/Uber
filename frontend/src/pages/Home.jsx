@@ -71,7 +71,19 @@ const Home = () => {
         setWaitingDriverPanel(true)
         setVehicleFound(false)
       }
-      socket.on('ride_accepted_notification', handleAccepted)
+      socket.on('ride_accepted_notification', handleAccepted);
+      socket.on('ride_completed_notification', (data) => {
+
+        setWaitingDriverPanel(false)
+        setPickup('')
+        setDestination('')
+        setVehiclePanel(false)
+        setVehicleFound(false)
+        setConfirmRidePanel(false)
+        setOriginLoc('')
+        setDestinationLoc('')
+        console.log("Ride Completed");
+      })
       return () => {
         socket.off('ride_accepted_notification', handleAccepted)
       }
@@ -138,7 +150,12 @@ const Home = () => {
       console.log(error.message)
     }
   }
-
+  useEffect(() => {
+    const intervalref = setInterval(() => {
+      console.log(socket.id)
+    } , 1000);
+    return () => clearInterval(intervalref);  
+  } , [])
   const submitHandler = async (e) => {
     e.preventDefault()
     try {

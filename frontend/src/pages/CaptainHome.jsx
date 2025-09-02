@@ -30,7 +30,6 @@ const CaptainHome = () => {
           try {
             const obj = await getLocation();
             setLocation(obj);  
-            console.log(obj)
             updateCaptain({
               ...captain,
               location: obj.data
@@ -48,8 +47,6 @@ const CaptainHome = () => {
   useEffect(()=>{
     const func = async()=>{
       if(!rideData) return ;
-      console.log('Ride Data:', rideData);
-      console.log('Token in frontend:', localStorage.getItem('token'));
       try {
         const obj = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/maps/get-distance-time-2`,
@@ -64,7 +61,6 @@ const CaptainHome = () => {
           }
         );
         setDistance(obj.data.response.distance);
-        console.log(distance);
       } catch (error) {
           throw error;
       }
@@ -74,7 +70,6 @@ const CaptainHome = () => {
  // Register captain once we know vehicleType
   useEffect(() => {
     if (socket &&  captain?.vehicle.vehicleType) {
-      console.log('Registering captain with vehicleType:', captain.vehicle.vehicleType);
       socket.emit('register_captain',  captain.vehicle.vehicleType);
     }
   }, [socket,  captain?.vehicle.vehicleType]);
@@ -84,7 +79,7 @@ const CaptainHome = () => {
     if (!socket) return;
 
     const handleNewRide = (data) => {
-      console.log("New ride received:", data);
+      console.log('New ride request received:', data);
       setRideData(data);
       setRidePopUpPanel(true);
     };

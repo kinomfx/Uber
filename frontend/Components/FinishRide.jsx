@@ -1,12 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-const FinishRide = ({setFinishRidePanel , pickup , destination , fare}) => {
+import { SocketContext } from '../context/SocketContext';
+import { useContext } from 'react';
+const FinishRide = ({setFinishRidePanel , pickup , destination , fare , socketId}) => {
+  const { socket } = useContext(SocketContext)
   const SubmitHandler = (e)=>{
-    e.preventDefault()
+    console.log("ride completed emitted")
+    socket.emit('ride_completed', {
+      pickup,
+      destination,
+      fare,
+      socketId: socketId
+    });
   }
   return (
     <div>
-      <div className=' flex w-full justify-between'>
+      <div className=' flex w-full justify-between z-50'>
       <h3 className='text-2xl font-semibold mb-5'>Confirm Your Ride</h3>
       <i className="ri-arrow-down-s-line text-3xl" height="32" width="32" onClick={()=>{
         setFinishRidePanel(false)
@@ -51,7 +60,7 @@ const FinishRide = ({setFinishRidePanel , pickup , destination , fare}) => {
       </div>
       <form ></form>
       <div className='flex items-center justify-center w-full'>
-        <Link   onClick={(e)=>{
+        <Link  to="/captain-home" onClick={(e)=>{
           SubmitHandler(e)
         }} className='  w-full border-2 black rounded-lg p-2 flex justify-center bg-green-600 text-white font-semibold'>Complete</Link>
       </div>

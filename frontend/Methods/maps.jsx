@@ -7,21 +7,44 @@ import {
 } from "@react-google-maps/api";
 
 const libraries = ["places"];
-function Maps({ pickup, destination , width = "375px", height = "490px" }) {
-    const [center , setCenter]  = useState({ lat: 37.7749, lng: -122.4194 }); // Default center (San Francisco)
-    useEffect(() => {
-        const func = async () => {
-          try {
-            const obj = await getLocation()
-            setCenter({lat:obj.latitude , lng:obj.longitude});
-          } catch (error) {
-            throw error
-          }
-        }
-        func()
-      }, [])
+
+function Maps({ pickup, destination, width = "375px", height = "490px" }) {
+  const [center, setCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // Default center (San Francisco)
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [map, setMap] = useState(null);
+
+
+  const normalizeLocation = (loc) => {
+    if (!loc) return null;
+
+
+    if (typeof loc === "object" && "lat" in loc && "lng" in loc) {
+      return loc;
+    }
+
+
+    if (typeof loc === "object" && "latitude" in loc && "longitude" in loc) {
+      return { lat: loc.latitude, lng: loc.longitude };
+    }
+
+    if (typeof loc === "string") {
+      return loc;
+    }
+
+    return null;
+  };
+
+  useEffect(() => {
+    const func = async () => {
+      try {
+        const obj = await getLocation();
+        setCenter({ lat: obj.latitude, lng: obj.longitude });
+      } catch (error) {
+        console.error("Error fetching current location:", error);
+      }
+    };
+    func();
+  }, []);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -31,7 +54,7 @@ function Maps({ pickup, destination , width = "375px", height = "490px" }) {
 
   const getDirections = async () => {
     if (!pickup || !destination) {
-      setDirectionsResponse(null); 
+      setDirectionsResponse(null);
       return;
     }
 
@@ -39,15 +62,15 @@ function Maps({ pickup, destination , width = "375px", height = "490px" }) {
 
     try {
       const results = await directionsService.route({
-        origin: pickup,
-        destination: destination,
+        origin: normalizeLocation(pickup),
+        destination: normalizeLocation(destination),
         travelMode: window.google.maps.TravelMode.DRIVING,
       });
 
       if (results.status === "OK") {
         setDirectionsResponse(results);
 
-        // ✅ Fit map bounds to the route
+        // ✅ Fit map to route bounds
         if (map) {
           const bounds = new window.google.maps.LatLngBounds();
           results.routes[0].overview_path.forEach((point) =>
@@ -81,7 +104,7 @@ function Maps({ pickup, destination , width = "375px", height = "490px" }) {
     <GoogleMap
       mapContainerStyle={{ width: width, height: height }}
       center={center}
-      zoom={16} // default, will get overridden by fitBounds
+      zoom={16} // default zoom, overridden by fitBounds when directions are shown
       onLoad={onLoad}
       onUnmount={onUnmount}
       options={{

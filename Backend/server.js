@@ -49,6 +49,13 @@ io.on('connection', (socket) => {
         plateNumber : data.captain.vehicle.plate , 
         vehicleType : data.captain.vehicle.vahicleType
     });
+    socket.on('ride_completed' , (data)=>{
+        const userSocketId = data.socketId;
+        console.log(`Ride completed by: ${socket.id}, notifying user: ${userSocketId}`);
+        io.to(userSocketId).emit('ride_completed_notification' , {
+            message : 'Your ride has been completed successfully. Thank you for riding with us!'
+        });
+    })
 });
 
 
