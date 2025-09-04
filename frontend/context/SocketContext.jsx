@@ -3,7 +3,7 @@ import React, { createContext, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 export const SocketContext = createContext();
-const socket = io();
+const socket = io('https://uber-2-0fev.onrender.com/');
 
 
 const SocketProvider = ({ children }) => {
