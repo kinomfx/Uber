@@ -133,7 +133,7 @@ const Home = () => {
   const createRide = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VERCEL_BASE_URL}/rides/create`,
+        `https://uber-2-0fev.onrender.com/rides/create`,
         {
           pickup: pickup,
           destination: destination,
@@ -160,7 +160,7 @@ const Home = () => {
     e.preventDefault()
     try {
       const fare = await axios.get(
-        `${import.meta.env.VERCEL_BASE_URL}/rides/get-fare`,
+        `https://uber-2-0fev.onrender.com/rides/get-fare`,
         {
           params: { pickup: pickup, destination: destination },
           headers: {

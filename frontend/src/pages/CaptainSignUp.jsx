@@ -35,7 +35,7 @@ const CaptainSignUp = () => {
       } , 
       socketId:socket.id
     };
-    const response = await axios.post(`${import.meta.env.VERCEL_BASE_URL}/captains/register`, captainData)
+    const response = await axios.post(`https://uber-2-0fev.onrender.com/captains/register`, captainData)
     console.log(response.status);
     if(response.status === 201) {
       setCaptain(response.data.captain);

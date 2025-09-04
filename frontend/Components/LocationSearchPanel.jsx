@@ -10,7 +10,7 @@ const LocationSearchPanel = ({ vehiclePanel, setVehiclePanel  ,query  , setPicku
 
   const fetchSuggestions = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VERCEL_BASE_URL}/maps/get-suggestions`, {
+      const response = await axios.get(`https://uber-2-0fev.onrender.com/maps/get-suggestions`, {
         params: { address: query.trim() },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`

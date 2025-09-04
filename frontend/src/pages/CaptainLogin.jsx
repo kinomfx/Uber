@@ -34,7 +34,7 @@ const CaptainLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const response = await axios.post(`${import.meta.env.VERCEL_BASE_URL}/captains/login`, {
+    const response = await axios.post(`https://uber-2-0fev.onrender.com/captains/login`, {
         email,
         password ,
         socketId:socket.id 

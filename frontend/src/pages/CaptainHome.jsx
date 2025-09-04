@@ -49,7 +49,7 @@ const CaptainHome = () => {
       if(!rideData) return ;
       try {
         const obj = await axios.get(
-          `${import.meta.env.VERCEL_BASE_URL}/maps/get-distance-time-2`,
+          `https://uber-2-0fev.onrender.com/maps/get-distance-time-2`,
           {
             params: {
               origin: `${location.latitude},${location.longitude}`,
