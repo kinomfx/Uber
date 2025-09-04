@@ -4,11 +4,7 @@ import { io } from 'socket.io-client';
 
 export const SocketContext = createContext();
 
-const socket = io(import.meta.env.VERCEL_BACKEND_URL, {
-  transports: ["polling"],  // force long-polling
-  withCredentials: true
-});
-
+const socket = io(`https://uber-2-0fev.onrender.com/`);
 
 const SocketProvider = ({ children }) => {
     useEffect(() => {

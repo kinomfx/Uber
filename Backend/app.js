@@ -8,7 +8,10 @@ import cors from "cors";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: [
+        "http://localhost:5173",            
+        "https://uber-lemon-one.vercel.app" 
+      ],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }));

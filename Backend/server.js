@@ -9,8 +9,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://localhost:5173",            // for local dev
-      "https://uber-lemon-one.vercel.app" // your deployed frontend
+      "http://localhost:5173",            
+      "https://uber-lemon-one.vercel.app" 
     ],
         // Make sure your frontend runs on this address
     methods: ["GET", "POST"],
