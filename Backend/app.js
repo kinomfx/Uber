@@ -10,7 +10,8 @@ const app = express();
 app.use(cors({
   origin: [
         "http://localhost:5173",            
-        "https://uber-lemon-one.vercel.app" 
+        "https://uber-lemon-one.vercel.app" ,
+        "https://uber-nq5vth6pq-moniks-projects-f54a1c98.vercel.app"
       ],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
