@@ -9,7 +9,7 @@ const CaptainLogout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BASE_URL}/captains/logout`, {
+    axios.get(`${import.meta.env.VERCEL_BASE_URL}/captains/logout`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

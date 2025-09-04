@@ -133,7 +133,7 @@ const Home = () => {
   const createRide = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/rides/create`,
+        `${import.meta.env.VERCEL_BASE_URL}/rides/create`,
         {
           pickup: pickup,
           destination: destination,
@@ -160,7 +160,7 @@ const Home = () => {
     e.preventDefault()
     try {
       const fare = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
+        `${import.meta.env.VERCEL_BASE_URL}/rides/get-fare`,
         {
           params: { pickup: pickup, destination: destination },
           headers: {

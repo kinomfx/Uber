@@ -28,7 +28,7 @@ const UserLogin = () => {
         };
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, User);
+            const response = await axios.post(`${import.meta.env.VERCEL_BASE_URL}/users/login`, User);
 
             if (response.status === 200) {
                 const data = response.data;

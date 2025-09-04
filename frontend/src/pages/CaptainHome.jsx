@@ -49,7 +49,7 @@ const CaptainHome = () => {
       if(!rideData) return ;
       try {
         const obj = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/maps/get-distance-time-2`,
+          `${import.meta.env.VERCEL_BASE_URL}/maps/get-distance-time-2`,
           {
             params: {
               origin: `${location.latitude},${location.longitude}`,
