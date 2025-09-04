@@ -13,6 +13,7 @@ app.use(cors({
         "https://uber-lemon-one.vercel.app" ,
         "https://uber-nq5vth6pq-moniks-projects-f54a1c98.vercel.app"
       ],
+    methods: ["GET", "POST", "OPTIONS"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }));

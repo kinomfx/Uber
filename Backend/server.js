@@ -14,7 +14,8 @@ const io = new Server(server, {
       "https://uber-nq5vth6pq-moniks-projects-f54a1c98.vercel.app"
     ],
         // Make sure your frontend runs on this address
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "OPTIONS"],
+
     credentials: true
   }
 });
