@@ -10,7 +10,8 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",            
-      "https://uber-lemon-one.vercel.app" 
+      "https://uber-lemon-one.vercel.app" ,
+      "https://uber-nq5vth6pq-moniks-projects-f54a1c98.vercel.app"
     ],
         // Make sure your frontend runs on this address
     methods: ["GET", "POST"],
